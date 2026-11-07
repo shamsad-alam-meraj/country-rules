@@ -26,5 +26,5 @@
       "country-rules": ["./src/index.ts"]
     }
   },
-  "include": ["src", "tests", "*.config.ts"]
+  "include": ["src", "tests", "examples", "*.config.ts"]
 }
