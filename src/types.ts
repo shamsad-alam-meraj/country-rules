@@ -130,6 +130,19 @@ export interface Country {
   verification: DataVerification;
 }
 
+export interface CountryBusinessProfile {
+  countryCode: string;
+  region: string;
+  subregion?: string;
+  currencyCode: string;
+  locale: string;
+  supportsPostalCode: boolean;
+  postalCodeRequired: boolean;
+  deliveryHint: string;
+  taxHint: string;
+  weekStart: string;
+}
+
 export interface CountryRecord extends Country {
   address?: AddressSchema | undefined;
   postalCode?: PostalCodeRules | undefined;

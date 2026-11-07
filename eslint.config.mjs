@@ -1,6 +1,6 @@
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, URL } from "node:url";
 import tseslint from "typescript-eslint";
 
 export default [
