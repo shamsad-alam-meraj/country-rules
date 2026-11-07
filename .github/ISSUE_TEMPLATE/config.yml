@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Questions and support
+    url: https://github.com/shamsad-alam-meraj/country-rules/discussions
+    about: Please use GitHub Discussions for general questions and support requests.

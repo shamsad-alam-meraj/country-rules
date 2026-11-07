@@ -1,0 +1,129 @@
+{
+  "name": "country-rules",
+  "version": "1.0.0",
+  "description": "One reliable API for country-specific software rules.",
+  "keywords": [
+    "country",
+    "countries",
+    "address",
+    "postal-code",
+    "phone",
+    "currency",
+    "locale",
+    "internationalization",
+    "ecommerce",
+    "checkout",
+    "shipping",
+    "country-metadata",
+    "iso-3166"
+  ],
+  "license": "MIT",
+  "author": "Meraj (shamsad-alam-meraj)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shamsad-alam-meraj/country-rules.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shamsad-alam-meraj/country-rules/issues"
+  },
+  "homepage": "https://github.com/shamsad-alam-meraj/country-rules#readme",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./address": {
+      "types": "./dist/address.d.ts",
+      "import": "./dist/address.js",
+      "require": "./dist/address.cjs"
+    },
+    "./postal-code": {
+      "types": "./dist/postal-code.d.ts",
+      "import": "./dist/postal-code.js",
+      "require": "./dist/postal-code.cjs"
+    },
+    "./subdivisions": {
+      "types": "./dist/subdivisions.d.ts",
+      "import": "./dist/subdivisions.js",
+      "require": "./dist/subdivisions.cjs"
+    },
+    "./phone": {
+      "types": "./dist/phone.d.ts",
+      "import": "./dist/phone.js",
+      "require": "./dist/phone.cjs"
+    },
+    "./currency": {
+      "types": "./dist/currency.d.ts",
+      "import": "./dist/currency.js",
+      "require": "./dist/currency.cjs"
+    },
+    "./locale": {
+      "types": "./dist/locale.d.ts",
+      "import": "./dist/locale.js",
+      "require": "./dist/locale.cjs"
+    },
+    "./coverage": {
+      "types": "./dist/coverage.d.ts",
+      "import": "./dist/coverage.js",
+      "require": "./dist/coverage.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "country-rules": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "schema",
+    "data"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "build:check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "prepublishOnly": "npm run build:check",
+    "release:check": "npm run build:check && npm pack --dry-run",
+    "smoke": "node dist/cli.js --list-countries --json"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "@vitest/coverage-v8": "2.1.8",
+    "eslint": "10.14.0",
+    "eslint-config-prettier": "10.1.8",
+    "prettier": "3.9.10",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.72.1",
+    "vite": "5.4.11",
+    "vitest": "2.1.8"
+  }
+}
