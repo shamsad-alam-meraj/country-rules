@@ -1,6 +1,6 @@
 {
   "name": "country-rules",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "One reliable API for country-specific software rules.",
   "keywords": [
     "country",
