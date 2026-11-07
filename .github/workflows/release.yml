@@ -1,8 +1,8 @@
-name: Release
+1   name: Release
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
 
 permissions:
   contents: write
@@ -22,7 +22,6 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: node
-          target-branch: develop
 
       - name: Set up Node for npm publish
         if: ${{ steps.release.outputs.release_created }}
