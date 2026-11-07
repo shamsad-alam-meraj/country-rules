@@ -25,6 +25,7 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: node
+          target-branch: main
 
       - name: Set up Node for npm publish
         if: ${{ steps.release.outputs.release_created }}
