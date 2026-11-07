@@ -22,3 +22,14 @@ export function getDateRules(country: string): {
     timeZone: locale.timeZone,
   };
 }
+
+export function formatCountryDate(date: Date | string | number, country: string): string {
+  const record = getCountryRecord(country);
+  const locale = record.locale?.primaryLocale ?? "en-US";
+  const input = typeof date === "string" || typeof date === "number" ? new Date(date) : date;
+
+  return new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+    timeZone: record.locale?.timeZone ?? "UTC",
+  }).format(input);
+}

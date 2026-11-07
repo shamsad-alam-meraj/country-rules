@@ -24,10 +24,14 @@ npm install country-rules
 
 ```ts
 import {
+  formatCountryCurrency,
+  formatCountryDate,
   getCountry,
   getCountries,
+  getCountriesByRegion,
   getAddressSchema,
   getPostalCodeRules,
+  searchCountries,
   validatePostalCode,
   getCurrencyRules,
   getDataCoverage,
@@ -47,9 +51,15 @@ console.log(validatePostalCode("10001", "US")); // true
 
 const currency = getCurrencyRules("BD");
 console.log(currency.code); // BDT
+console.log(formatCountryCurrency(1234.5, "BD")); // ৳1,234.50 or equivalent locale output
+console.log(formatCountryDate("2024-05-16", "DE")); // localized date string
 
 const coverage = getDataCoverage("BD");
 console.log(coverage.verificationStatus); // verified
+
+const asia = getCountriesByRegion("asia");
+console.log(asia.length);
+console.log(searchCountries("bangladesh")[0].iso2); // BD
 
 console.log(getCountries().length); // 250+ records
 ```
@@ -70,13 +80,13 @@ console.log(getCountry("JP").commonName);
 
 ## Core API
 
-- `getCountry()` / `getCountries()` / `findCountry()`
+- `getCountry()` / `getCountries()` / `findCountry()` / `searchCountries()` / `getCountriesByRegion()`
 - `getAddressSchema()` / `validateAddress()` / `formatPostalAddress()`
 - `getPostalCodeRules()` / `supportsPostalCode()` / `validatePostalCode()`
 - `getSubdivisions()` / `getAdministrativeLevels()`
 - `getPhoneRules()` / `getCallingCode()`
-- `getCurrencyRules()` / `formatCountryNumber()`
-- `getLocaleRules()` / `getDateRules()`
+- `getCurrencyRules()` / `formatCountryNumber()` / `formatCountryCurrency()`
+- `getLocaleRules()` / `getDateRules()` / `formatCountryDate()`
 - `getDataCoverage()` / `buildCountryRuleSet()`
 
 ## Data quality policy

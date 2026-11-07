@@ -2,10 +2,16 @@ import { describe, expect, it } from "vitest";
 
 import {
   findCountry,
+  formatCountryCurrency,
+  formatCountryDate,
   formatCountryNumber,
   getAddressSchema,
+  getAvailableRegions,
   getCallingCode,
+  getCountriesByRegion,
+  getCountriesBySubregion,
   getCountry,
+  getCountryBusinessProfile,
   getCountryByName,
   getCountryRules,
   getCurrencyRules,
@@ -13,6 +19,7 @@ import {
   getPhoneRules,
   getPostalCodeRules,
   getSubdivisions,
+  searchCountries,
   supportsPostalCode,
   validatePostalCode,
 } from "../src/index";
@@ -91,6 +98,39 @@ describe("country-rules", () => {
     expect(coverage.countryCode).toBe("BD");
     expect(coverage.availableModules.length).toBeGreaterThan(0);
     expect(coverage.sourceCount).toBeGreaterThan(0);
+  });
+
+  it("supports searching and region filtering for user-facing discovery", () => {
+    const asia = getCountriesByRegion("asia");
+    expect(asia.length).toBeGreaterThan(0);
+    expect(asia.some((country) => country.iso2 === "BD")).toBe(true);
+
+    const matches = searchCountries("bangladesh");
+    expect(matches.some((country) => country.iso2 === "BD")).toBe(true);
+
+    const regions = getAvailableRegions();
+    expect(regions).toContain("Asia");
+    expect(getCountriesBySubregion("Southern Asia").some((country) => country.iso2 === "BD")).toBe(
+      true,
+    );
+  });
+
+  it("provides checkout-ready business hints for international flows", () => {
+    const profile = getCountryBusinessProfile("US");
+    expect(profile.countryCode).toBe("US");
+    expect(profile.supportsPostalCode).toBe(true);
+    expect(profile.postalCodeRequired).toBe(true);
+    expect(profile.currencyCode).toBe("USD");
+    expect(profile.deliveryHint).toMatch(/postal|zip|checkout/i);
+    expect(profile.taxHint).toMatch(/tax|VAT|GST|sales/i);
+  });
+
+  it("formats currency and dates using country locale rules", () => {
+    const currency = formatCountryCurrency(1234.5, "BD");
+    expect(currency).toContain("৳");
+
+    const formattedDate = formatCountryDate("2024-05-16", "DE");
+    expect(formattedDate).toMatch(/16|05|2024/);
   });
 
   it("throws documented errors for invalid ISO codes", () => {
