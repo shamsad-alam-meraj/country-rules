@@ -79,9 +79,6 @@
     },
     "./package.json": "./package.json"
   },
-  "bin": {
-    "country-rules": "./dist/cli.js"
-  },
   "files": [
     "dist",
     "README.md",
@@ -109,8 +106,7 @@
     "typecheck": "tsc --noEmit",
     "build:check": "npm run typecheck && npm run lint && npm run test && npm run build",
     "prepublishOnly": "npm run build:check",
-    "release:check": "npm run build:check && npm pack --dry-run",
-    "smoke": "node dist/cli.js --list-countries --json"
+    "release:check": "npm run build:check && npm pack --dry-run"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

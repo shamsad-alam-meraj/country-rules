@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.0.0 (2026-11-07)
+
+### Bug Fixes
+
+- update ESLint configuration to import URL and include examples in TypeScript config ([13a63a0](https://github.com/shamsad-alam-meraj/country-rules/commit/13a63a0cab8bc6c2de94f8675b4f86fd2fbf879a))
+
 ## [Unreleased]
 
 ### Added
