@@ -8,18 +8,34 @@ import {
   getAddressSchema,
   getAvailableRegions,
   getCallingCode,
+  getCountriesByCallingCode,
+  getCountriesByCurrency,
+  getCountriesByLanguage,
   getCountriesByRegion,
+  getCountriesByRegionAndCurrency,
+  getCountriesByRegionAndLanguage,
   getCountriesBySubregion,
+  getCountriesByTimezone,
+  getCountriesByTimezoneAndCurrency,
   getCountry,
   getCountryBusinessProfile,
   getCountryByName,
+  getCountryComparison,
+  getCountryCustomizationProfile,
+  getCountryFlag,
+  getCountryMarketProfile,
   getCountryRules,
+  getCountrySummary,
   getCurrencyRules,
   getDataCoverage,
+  getGlobalCountryMatrix,
   getPhoneRules,
   getPostalCodeRules,
+  getRelatedCountries,
   getSubdivisions,
+  refreshCountryData,
   searchCountries,
+  setCountryData,
   supportsPostalCode,
   validatePostalCode,
 } from "../src/index";
@@ -100,6 +116,18 @@ describe("country-rules", () => {
     expect(coverage.sourceCount).toBeGreaterThan(0);
   });
 
+  it("exposes flags and international customization profiles for all countries", () => {
+    const flag = getCountryFlag("BD");
+    expect(flag.emoji).toBe("🇧🇩");
+    expect(flag.shortcode).toBe("BD");
+    expect(flag.alt).toMatch(/Bangladesh/i);
+
+    const customization = getCountryCustomizationProfile("US");
+    expect(customization.countryCode).toBe("US");
+    expect(customization.checkoutStyle).toMatch(/postal|shipping|address/i);
+    expect(customization.flags).toContain("🇺🇸");
+  });
+
   it("supports searching and region filtering for user-facing discovery", () => {
     const asia = getCountriesByRegion("asia");
     expect(asia.length).toBeGreaterThan(0);
@@ -113,6 +141,49 @@ describe("country-rules", () => {
     expect(getCountriesBySubregion("Southern Asia").some((country) => country.iso2 === "BD")).toBe(
       true,
     );
+  });
+
+  it("supports additional international discovery helpers", () => {
+    const byCurrency = getCountriesByCurrency("BDT");
+    expect(byCurrency.some((country) => country.iso2 === "BD")).toBe(true);
+
+    const byLanguage = getCountriesByLanguage("English");
+    expect(byLanguage.length).toBeGreaterThan(0);
+    expect(byLanguage.some((country) => country.iso2 === "US")).toBe(true);
+
+    const byCallingCode = getCountriesByCallingCode("+880");
+    expect(byCallingCode.some((country) => country.iso2 === "BD")).toBe(true);
+
+    const byTimezone = getCountriesByTimezone("Asia/Dhaka");
+    expect(byTimezone.some((country) => country.iso2 === "BD")).toBe(true);
+
+    const byRegionLanguage = getCountriesByRegionAndLanguage("Asia", "English");
+    expect(byRegionLanguage.length).toBeGreaterThan(0);
+
+    const byRegionCurrency = getCountriesByRegionAndCurrency("Asia", "BDT");
+    expect(byRegionCurrency.some((country) => country.iso2 === "BD")).toBe(true);
+
+    const byTimezoneCurrency = getCountriesByTimezoneAndCurrency("Asia/Dhaka", "BDT");
+    expect(byTimezoneCurrency.some((country) => country.iso2 === "BD")).toBe(true);
+
+    const marketProfile = getCountryMarketProfile("BD");
+    expect(marketProfile.countryCode).toBe("BD");
+    expect(marketProfile.currencyCode).toBe("BDT");
+    expect(marketProfile.timezoneCount).toBeGreaterThan(0);
+
+    const matrix = getGlobalCountryMatrix({ region: "Asia" });
+    expect(matrix.totalCountries).toBeGreaterThan(0);
+    expect(matrix.countries.some((country) => country.countryCode === "BD")).toBe(true);
+
+    const comparison = getCountryComparison("US", "BD");
+    expect(comparison.baseCountry.countryCode).toBe("US");
+    expect(comparison.compareCountry.countryCode).toBe("BD");
+    expect(comparison.comparison.some((item) => item.label === "currency")).toBe(true);
+
+    const summary = getCountrySummary("BD");
+    expect(summary.countryCode).toBe("BD");
+    expect(summary.flag.emoji).toBe("🇧🇩");
+    expect(summary.currencyCode).toBe("BDT");
   });
 
   it("provides checkout-ready business hints for international flows", () => {
@@ -131,6 +202,96 @@ describe("country-rules", () => {
 
     const formattedDate = formatCountryDate("2024-05-16", "DE");
     expect(formattedDate).toMatch(/16|05|2024/);
+  });
+
+  it("supports live dataset refresh and related country discovery", async () => {
+    const original = getCountry("US");
+    const related = getRelatedCountries("US");
+    expect(related.some((country) => country.iso2 === "CA")).toBe(true);
+
+    const customData = [
+      {
+        iso2: "US",
+        iso3: "USA",
+        numericCode: "840",
+        name: "United States",
+        commonName: "United States",
+        region: "Americas",
+        subregion: "North America",
+        currencies: ["USD"],
+        languages: ["English"],
+        timezones: ["UTC-08:00", "UTC-05:00"],
+        callingCodes: ["+1"],
+        tlds: [".us"],
+        independent: true,
+        aliases: ["US", "United States"],
+        flag: {
+          emoji: "🇺🇸",
+          shortcode: "US",
+          alt: "Flag of United States",
+          label: "United States flag",
+          cssClass: "flag flag-us",
+        },
+        verification: {
+          status: "verified",
+          lastVerified: "2026-11-08",
+          sources: [
+            {
+              id: "test-source",
+              name: "Test Source",
+              publisher: "Test Publisher",
+              url: "https://example.com",
+              accessedAt: "2026-11-08",
+              reliability: "official",
+            },
+          ],
+        },
+      },
+      {
+        iso2: "CA",
+        iso3: "CAN",
+        numericCode: "124",
+        name: "Canada",
+        commonName: "Canada",
+        region: "Americas",
+        subregion: "North America",
+        currencies: ["CAD"],
+        languages: ["English", "French"],
+        timezones: ["UTC-08:00", "UTC-05:00"],
+        callingCodes: ["+1"],
+        tlds: [".ca"],
+        independent: true,
+        aliases: ["CA", "Canada"],
+        flag: {
+          emoji: "🇨🇦",
+          shortcode: "CA",
+          alt: "Flag of Canada",
+          label: "Canada flag",
+          cssClass: "flag flag-ca",
+        },
+        verification: {
+          status: "verified",
+          lastVerified: "2026-11-08",
+          sources: [
+            {
+              id: "test-source",
+              name: "Test Source",
+              publisher: "Test Publisher",
+              url: "https://example.com",
+              accessedAt: "2026-11-08",
+              reliability: "official",
+            },
+          ],
+        },
+      },
+    ] as Parameters<typeof setCountryData>[0];
+
+    setCountryData(customData);
+    expect(getRelatedCountries("US").some((country) => country.iso2 === "CA")).toBe(true);
+
+    await refreshCountryData();
+    expect(getCountry("US").iso2).toBe("US");
+    expect(original.iso2).toBe("US");
   });
 
   it("throws documented errors for invalid ISO codes", () => {

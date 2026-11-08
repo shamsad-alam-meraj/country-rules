@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-11-08
+
+### Added
+
+- Country flag metadata for every country in the world catalog
+- New `getCountryFlag()`, `getCountryPresentation()`, and `getCountryCustomizationProfile()` APIs
+- International checkout and localization helpers for shipping, tax, and address customization flows
+- Stronger documentation for GitHub and npm consumers, including flag-first examples and real-world country profile usage
+
+### Changed
+
+- Expanded the public country model with richer display metadata and personalization support
+- Improved README content to emphasize global usability, not region-specific behavior
+- Cleaned lint and formatting checks for generated build artifacts
+
 ## 1.0.0 (2026-11-07)
 
 ### Bug Fixes

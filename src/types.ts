@@ -110,6 +110,14 @@ export interface LocaleRules {
   verification: DataVerification;
 }
 
+export interface CountryFlag {
+  emoji: string;
+  shortcode: string;
+  alt: string;
+  label: string;
+  cssClass: string;
+}
+
 export interface Country {
   iso2: string;
   iso3: string;
@@ -127,6 +135,7 @@ export interface Country {
   tlds: readonly string[];
   independent: boolean;
   aliases: readonly string[];
+  flag: CountryFlag;
   verification: DataVerification;
 }
 
@@ -171,6 +180,94 @@ export interface CountryRuleSet {
     completeness: "partial" | "moderate" | "full";
     version: string;
   };
+}
+
+export interface CountryPresentation {
+  iso2: string;
+  iso3: string;
+  name: string;
+  commonName: string;
+  region: string;
+  subregion?: string;
+  capital?: string;
+  displayName: string;
+  flag: CountryFlag;
+}
+
+export interface CountryCustomizationProfile {
+  countryCode: string;
+  countryName: string;
+  locale: string;
+  checkoutStyle: string;
+  defaultCurrency: string;
+  preferredLayout: "postal-first" | "card-first" | "manual-confirmation";
+  addressMode: "strict" | "moderate" | "flexible";
+  taxReminder: string;
+  personalization: readonly string[];
+  flags: readonly string[];
+}
+
+export interface CountrySummary {
+  countryCode: string;
+  name: string;
+  commonName: string;
+  region: string;
+  subregion?: string;
+  capital?: string;
+  flag: CountryFlag;
+  currencyCode: string;
+  locale: string;
+  callingCode: string;
+  timezones: readonly string[];
+  languages: readonly string[];
+}
+
+export interface CountryMarketProfile {
+  countryCode: string;
+  countryName: string;
+  region: string;
+  subregion?: string;
+  currencyCode: string;
+  locale: string;
+  callingCode: string;
+  timezones: readonly string[];
+  languages: readonly string[];
+  timezoneCount: number;
+  languageCount: number;
+  currencyCount: number;
+}
+
+export interface GlobalCountryMatrixEntry {
+  countryCode: string;
+  countryName: string;
+  region: string;
+  subregion?: string;
+  currencyCode: string;
+  timezoneCount: number;
+  languageCount: number;
+  flags: readonly string[];
+}
+
+export interface GlobalCountryMatrix {
+  totalCountries: number;
+  region?: string;
+  subregion?: string;
+  currencyFilter?: string;
+  timezoneFilter?: string;
+  countries: readonly GlobalCountryMatrixEntry[];
+}
+
+export interface CountryComparisonItem {
+  label: string;
+  base: string;
+  compare: string;
+  isSame: boolean;
+}
+
+export interface CountryComparison {
+  baseCountry: CountrySummary;
+  compareCountry: CountrySummary;
+  comparison: readonly CountryComparisonItem[];
 }
 
 export interface CoverageReport {
