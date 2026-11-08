@@ -1,10 +1,11 @@
 {
   "name": "country-rules",
-  "version": "1.0.1",
-  "description": "One reliable API for country-specific software rules.",
+  "version": "1.1.0",
+  "description": "Production-grade country intelligence with flags, checkout rules, and international metadata for global apps.",
   "keywords": [
     "country",
     "countries",
+    "country-flags",
     "address",
     "postal-code",
     "phone",
@@ -15,7 +16,8 @@
     "checkout",
     "shipping",
     "country-metadata",
-    "iso-3166"
+    "iso-3166",
+    "globalization"
   ],
   "license": "MIT",
   "author": "Meraj (shamsad-alam-meraj)",
