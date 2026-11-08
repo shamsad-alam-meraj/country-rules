@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/shamsad-alam-meraj/country-rules/compare/v1.0.0...v1.1.0) (2026-11-08)
+
+
+### Features
+
+* Add country flag metadata and new APIs for enhanced country inf… ([38c701f](https://github.com/shamsad-alam-meraj/country-rules/commit/38c701f35308bc8e51a259352125e796f57f26e6))
+* Add country flag metadata and new APIs for enhanced country information ([4865c86](https://github.com/shamsad-alam-meraj/country-rules/commit/4865c86dc444937e8251d3479bb18b90fa56bbe3))
+
 ## [1.1.0] - 2026-11-08
 
 ### Added
